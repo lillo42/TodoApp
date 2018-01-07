@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
+using TodoApp.Entity;
 using TodoApp.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -7,10 +7,9 @@ using Xamarin.Forms.Xaml;
 namespace TodoApp.View
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class TodoItemPage : ContentPage
+    public partial class TodoListPage : ContentPage
     {
-
-        public TodoItemPage()
+        public TodoListPage()
         {
             InitializeComponent();
         }
@@ -28,12 +27,15 @@ namespace TodoApp.View
 
         private void TbiItem_Clicked(object sender, EventArgs e)
         {
-            Debug.WriteLine(nameof(TbiItem_Clicked));
+            (ViewModel as TodoListViewModel).SelectItem.Execute(new TodoItem());
         }
 
         private void LstTodo_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            Debug.WriteLine(nameof(LstTodo_ItemSelected));
+        {   
+            if (e.SelectedItem != null)
+            {
+                (ViewModel as TodoListViewModel).SelectItem.Execute(e.SelectedItem as TodoItem);
+            }
         }
     }
 }

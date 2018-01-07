@@ -1,13 +1,13 @@
-﻿
+﻿using TodoApp.View;
 using Xamarin.Forms;
 
 namespace TodoApp
 {
     public partial class App : Application
-	{
-		public App ()
-		{
-			InitializeComponent();
+    {
+        public App()
+        {
+            InitializeComponent();
 
             Resources = new ResourceDictionary
             {
@@ -15,22 +15,26 @@ namespace TodoApp
                 { "primaryDarkGreen", Color.FromHex("6FA22E") }
             };
 
-            MainPage = new TodoApp.MainPage();
-		}
+            MainPage = new NavigationPage(new TodoListPage())
+            {
+                BarBackgroundColor = (Color)App.Current.Resources["primaryGreen"],
+                BarTextColor = Color.White
+            };
+        }
 
-		protected override void OnStart ()
-		{
-			// Handle when your app starts
-		}
+        protected override void OnStart()
+        {
+            // Handle when your app starts
+        }
 
-		protected override void OnSleep ()
-		{
-			// Handle when your app sleeps
-		}
+        protected override void OnSleep()
+        {
+            // Handle when your app sleeps
+        }
 
-		protected override void OnResume ()
-		{
-			// Handle when your app resumes
-		}
-	}
+        protected override void OnResume()
+        {
+            // Handle when your app resumes
+        }
+    }
 }
