@@ -1,4 +1,5 @@
 ﻿using TodoApp.Interface;
+using TodoApp.UWP.Helper;
 using Xamarin.Forms;
 
 namespace TodoApp.UWP
@@ -7,11 +8,10 @@ namespace TodoApp.UWP
     {
         public MainPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             DependencyService.Register<IFileHelper, FileHelper>();
-            DependencyService.Register<ITextToSpeech, TodoTextToSpeech>();
-
+            DependencyService.Register<ITextToSpeech, SpeechText>();
             LoadApplication(new TodoApp.App());
         }
     }

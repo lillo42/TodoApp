@@ -2,14 +2,14 @@
 using System.IO;
 using TodoApp.Interface;
 
-namespace TodoApp.Droid
+namespace TodoApp.Droid.Helpers
 {
-    public sealed class FileHelper : IFileHelper
+    public class FileHelper : IFileHelper
     {
-        public string GetLocalFilePath(string filename)
+        public string GetLocalFilePath(string fileName)
         {
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            return Path.Combine(path, filename);
+            return Path.Combine(path, fileName);
         }
     }
 }

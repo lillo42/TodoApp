@@ -1,5 +1,10 @@
-﻿using Foundation;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using Foundation;
 using TodoApp.Interface;
+using TodoApp.iOS.Helper;
 using UIKit;
 using Xamarin.Forms;
 
@@ -21,8 +26,10 @@ namespace TodoApp.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             DependencyService.Register<IFileHelper, FileHelper>();
-            DependencyService.Register<ITextToSpeech, TodoTextToSpeech>();
-            Forms.Init();
+            DependencyService.Register<ITextToSpeech, SpeechText>();
+
+
+            global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

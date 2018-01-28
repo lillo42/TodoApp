@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using TodoApp.ViewModel;
+﻿using TodoApp.ViewModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,13 +7,12 @@ namespace TodoApp.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TodoItemPage : ContentPage
     {
-
         public TodoItemPage()
         {
             InitializeComponent();
         }
 
-        private BaseViewModel ViewModel => BindingContext as BaseViewModel;
+        private TodoItemViewModel ViewModel => BindingContext as TodoItemViewModel;
 
         protected override async void OnAppearing()
         {
@@ -23,17 +20,8 @@ namespace TodoApp.View
 
             if (ViewModel == null)
                 return;
+            Title = ViewModel.Title;
             await ViewModel.LoadAsync();
-        }
-
-        private void TbiItem_Clicked(object sender, EventArgs e)
-        {
-            Debug.WriteLine(nameof(TbiItem_Clicked));
-        }
-
-        private void LstTodo_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            Debug.WriteLine(nameof(LstTodo_ItemSelected));
         }
     }
 }

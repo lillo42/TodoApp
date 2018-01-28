@@ -4,17 +4,17 @@ using TodoApp.Interface;
 using Windows.Media.SpeechSynthesis;
 using Windows.UI.Xaml.Controls;
 
-namespace TodoApp.UWP
+namespace TodoApp.UWP.Helper
 {
-    public sealed class TodoTextToSpeech : ITextToSpeech
+    public class SpeechText : ITextToSpeech
     {
         // http://msdn.microsoft.com/en-us/library/windowsphone/develop/jj207057(v=vs.105).aspx
         public async void Speak(string text)
         {
-            var synth = new SpeechSynthesizer();
+            var sythn = new SpeechSynthesizer();
             try
             {
-                var stream = await synth.SynthesizeTextToStreamAsync(text);
+                SpeechSynthesisStream stream = await sythn.SynthesizeTextToStreamAsync(text);
 
                 var mediaElement = new MediaElement();
                 mediaElement.SetSource(stream, stream.ContentType);
@@ -22,7 +22,7 @@ namespace TodoApp.UWP
             }
             catch (Exception e)
             {
-                Debug.WriteLine($"couldn't play voice {e.Message}");
+                Debug.WriteLine(e.ToString());
             }
         }
     }

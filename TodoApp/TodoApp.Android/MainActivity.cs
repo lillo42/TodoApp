@@ -2,6 +2,7 @@
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using TodoApp.Droid.Helpers;
 using TodoApp.Interface;
 using Xamarin.Forms;
 
@@ -18,9 +19,9 @@ namespace TodoApp.Droid
             base.OnCreate(bundle);
 
             DependencyService.Register<IFileHelper, FileHelper>();
-            DependencyService.Register<ITextToSpeech, TodoTextToSpeech>();
-            
-            Forms.Init(this, bundle);
+            DependencyService.Register<ITextToSpeech, SpeechText>();
+
+            global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App());
         }
     }

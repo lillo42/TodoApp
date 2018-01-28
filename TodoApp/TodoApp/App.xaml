@@ -2,12 +2,7 @@
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TodoApp.App">
-	<Application.Resources>
-        <ResourceDictionary>
-            <Color x:Name="primaryGreen">Green</Color>
-            <Color x:Name="primaryDarkGreen">DarkGreen</Color>
-        </ResourceDictionary>
-		<!-- Application resource dictionary -->
-
-	</Application.Resources>
+    <Application.Resources>
+        <!-- Application resource dictionary -->
+    </Application.Resources>
 </Application>

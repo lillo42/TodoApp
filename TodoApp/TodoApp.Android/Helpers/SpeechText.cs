@@ -1,17 +1,17 @@
-﻿using Android.Speech.Tts;
-using Xamarin.Forms;
-using System.Collections.Generic;
+﻿using Android.Runtime;
+using Android.Speech.Tts;
 using Java.Lang;
+using System.Collections.Generic;
 using TodoApp.Interface;
-using Android.Runtime;
+using Xamarin.Forms;
 
-namespace TodoApp.Droid
+namespace TodoApp.Droid.Helpers
 {
-    public sealed class TodoTextToSpeech : Object, ITextToSpeech, TextToSpeech.IOnInitListener
+    public class SpeechText : Object, ITextToSpeech, TextToSpeech.IOnInitListener
     {
         private TextToSpeech speaker;
         private string toSpeak;
-        
+
         public void OnInit([GeneratedEnum] OperationResult status)
         {
             if(status.Equals(OperationResult.Success))
@@ -22,16 +22,13 @@ namespace TodoApp.Droid
 
         public void Speak(string text)
         {
-            if (!string.IsNullOrWhiteSpace(text))
+            if (!string.IsNullOrEmpty(text))
             {
                 toSpeak = text;
                 if (speaker == null)
                     speaker = new TextToSpeech(Forms.Context, this);
                 else
-                {
-                    var p = new Dictionary<string, string>();
-                    speaker.Speak(toSpeak, QueueMode.Flush, p);
-                }
+                    speaker.Speak(text, QueueMode.Flush, new Dictionary<string, string>());
             }
         }
     }

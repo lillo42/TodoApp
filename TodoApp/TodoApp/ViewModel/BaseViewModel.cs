@@ -4,21 +4,37 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using TodoApp.Data;
+using TodoApp.DbContext;
+using TodoApp.Interface;
 using Xamarin.Forms;
 
 namespace TodoApp.ViewModel
 {
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
-        private static Lazy<TodoDbContext> _lazyContext = new Lazy<TodoDbContext>(() => new TodoDbContext());
-        protected TodoDbContext DbContext => _lazyContext.Value;
+        private TodoDbContext _database;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChange([CallerMemberName]string propertyName = "")
+        protected TodoDbContext Database
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            get
+            {
+                if(_database == null)
+                {
+                    _database = new TodoDbContext(DependencyService.Get<IFileHelper>().GetLocalFilePath("TodoSQLite.db3"));
+                }
+                return _database;
+            }
         }
+
+        private string _title;
+        public string Title
+        {
+            get => _title;
+            set => SetProperty(ref _title, value);
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChange([CallerMemberName]string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName]string propertyName = "")
         {
@@ -31,6 +47,8 @@ namespace TodoApp.ViewModel
 
         public virtual Task LoadAsync() => Task.CompletedTask;
 
+        private readonly int _viewModelWordLength = "ViewModel".Length;
+
         protected async Task PushAsync<TViewModel>(params object[] args)
             where TViewModel : BaseViewModel
         {
@@ -38,15 +56,14 @@ namespace TodoApp.ViewModel
             {
                 Type viewModelType = typeof(TViewModel);
                 string viewModelTypeName = viewModelType.Name;
-                int viewModelWordLength = "ViewModel".Length;
-                string viewTypeName = $"TodoApp.ViewModel.{viewModelTypeName.Substring(0, viewModelTypeName.Length - viewModelWordLength)}Page";
+                string viewTypeName = $"TodoApp.View.{viewModelTypeName.Substring(0, viewModelTypeName.Length - _viewModelWordLength)}Page";
                 Type viewType = Type.GetType(viewTypeName);
-                Page page = Activator.CreateInstance(viewType) as Page;
-
+                var page = Activator.CreateInstance(viewType) as Page;
                 var viewModel = Activator.CreateInstance(viewModelType, args);
                 if (page != null)
                     page.BindingContext = viewModel;
                 await App.Current.MainPage.Navigation.PushAsync(page);
+
             }
             catch (Exception e)
             {
@@ -56,3 +73,4 @@ namespace TodoApp.ViewModel
         }
     }
 }
+    
